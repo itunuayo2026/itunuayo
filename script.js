@@ -1,0 +1,107 @@
+// Mobile nav toggle
+const navToggle = document.getElementById('navToggle');
+const navLinks = document.getElementById('navLinks');
+navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+navLinks.querySelectorAll('a').forEach(link =>
+  link.addEventListener('click', () => navLinks.classList.remove('open'))
+);
+
+// Countdown to wedding day (White Wedding, 10:00 AM WAT)
+const weddingDate = new Date('2026-09-26T10:00:00+01:00').getTime();
+
+function updateCountdown() {
+  const now = Date.now();
+  const diff = weddingDate - now;
+
+  const els = {
+    days: document.getElementById('cd-days'),
+    hours: document.getElementById('cd-hours'),
+    mins: document.getElementById('cd-mins'),
+    secs: document.getElementById('cd-secs'),
+  };
+
+  if (diff <= 0) {
+    els.days.textContent = '00';
+    els.hours.textContent = '00';
+    els.mins.textContent = '00';
+    els.secs.textContent = '00';
+    return;
+  }
+
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const mins = Math.floor((diff / (1000 * 60)) % 60);
+  const secs = Math.floor((diff / 1000) % 60);
+
+  els.days.textContent = String(days).padStart(2, '0');
+  els.hours.textContent = String(hours).padStart(2, '0');
+  els.mins.textContent = String(mins).padStart(2, '0');
+  els.secs.textContent = String(secs).padStart(2, '0');
+}
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+// Toast helper
+const toast = document.getElementById('toast');
+function showToast(message) {
+  toast.textContent = message;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2600);
+}
+
+// Gift selection
+const giftGrid = document.getElementById('giftGrid');
+let selectedGiftInput = null;
+
+giftGrid.addEventListener('click', (e) => {
+  const btn = e.target.closest('.gift-select');
+  if (!btn) return;
+  const card = btn.closest('.gift-card');
+  const giftName = card.dataset.gift;
+
+  giftGrid.querySelectorAll('.gift-card').forEach(c => {
+    c.classList.remove('selected');
+    c.querySelector('.gift-select').textContent = 'Select Gift';
+  });
+
+  card.classList.add('selected');
+  btn.textContent = 'Selected ✓';
+
+  if (!selectedGiftInput) {
+    selectedGiftInput = document.createElement('input');
+    selectedGiftInput.type = 'hidden';
+    selectedGiftInput.name = 'selected_gift';
+    document.getElementById('rsvpForm').appendChild(selectedGiftInput);
+  }
+  selectedGiftInput.value = giftName;
+
+  showToast(`"${giftName}" selected — thank you!`);
+  document.getElementById('rsvp').scrollIntoView({ behavior: 'smooth' });
+});
+
+// RSVP form submit (Formspree AJAX so we can show a nice toast)
+const rsvpForm = document.getElementById('rsvpForm');
+rsvpForm.addEventListener('submit', async (e) => {
+  const action = rsvpForm.getAttribute('action');
+  if (action.includes('YOUR_FORM_ID')) {
+    e.preventDefault();
+    showToast('Connect your Formspree form ID first — see the note below the form.');
+    return;
+  }
+  e.preventDefault();
+  try {
+    const res = await fetch(action, {
+      method: 'POST',
+      body: new FormData(rsvpForm),
+      headers: { Accept: 'application/json' },
+    });
+    if (res.ok) {
+      showToast('RSVP sent — thank you! We can\'t wait to celebrate with you.');
+      rsvpForm.reset();
+    } else {
+      showToast('Something went wrong. Please try again or call us directly.');
+    }
+  } catch (err) {
+    showToast('Network error — please try again.');
+  }
+});
