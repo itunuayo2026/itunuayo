@@ -18,13 +18,13 @@
     <span class="nav-logo">I &amp; A</span>
     <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">&#9776;</button>
     <ul class="nav-links" id="navLinks">
-      <li><a href="#home">Home</a></li>
-      <li><a href="#story">Our Story</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#gallery">Gallery</a></li>
-      <li><a href="#rsvp">RSVP</a></li>
-      <li><a href="#registry">Registry</a></li>
-      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#home" data-nav="home">Home</a></li>
+      <li><a href="#story" data-nav="story">Our Story</a></li>
+      <li><a href="#details" data-nav="details">Details</a></li>
+      <li><a href="#gallery" data-nav="gallery">Gallery</a></li>
+      <li><a href="#rsvp" data-nav="rsvp">RSVP</a></li>
+      <li><a href="#registry" data-nav="registry">Registry</a></li>
+      <li><a href="#faq" data-nav="faq">FAQ</a></li>
     </ul>
   </div>
 </nav>
@@ -144,6 +144,19 @@
       RSVP by phone: <a href="tel:08133326592">0813 332 6592</a> &bull; <a href="tel:09026578638">0902 657 8638</a>
     </p>
     <p class="dress-note">Dress code: <strong>Purple &amp; Gold</strong> &mdash; come shine with us! &#10024;</p>
+
+    <details class="schedule-toggle">
+      <summary>See full day schedule</summary>
+      <ul class="schedule-list">
+        <li><span class="schedule-time">9:30 AM</span><span>Guest arrival &amp; seating &mdash; Olivet Baptist Church</span></li>
+        <li><span class="schedule-time">10:00 AM</span><span>White Wedding ceremony begins</span></li>
+        <li><span class="schedule-time">12:00 PM</span><span>Photographs &amp; travel to reception venue</span></li>
+        <li><span class="schedule-time">1:00 PM</span><span>Guests received &mdash; Starlight Event Center</span></li>
+        <li><span class="schedule-time">2:00 PM</span><span>Couple's entrance &amp; toasts</span></li>
+        <li><span class="schedule-time">3:00 PM</span><span>Lunch, dancing &amp; celebration</span></li>
+      </ul>
+      <p class="form-note">Times are estimated &mdash; edit these to match the real run of show.</p>
+    </details>
   </section>
 
   <section id="gallery" class="section">
@@ -202,53 +215,74 @@
   <section id="registry" class="section">
     <p class="section-eyebrow">With Love</p>
     <h2 class="section-title">Gift Registry</h2>
-    <p class="section-sub">Your presence is truly the greatest gift, but if you wish to bless us further, here are a few ideas.</p>
+    <p class="section-sub">Honestly, having you there is gift enough &mdash; but since you keep asking, here are a few ways to spoil us anyway.</p>
 
     <div class="gift-grid" id="giftGrid">
-      <div class="gift-card" data-gift="Honeymoon Fund">
-        <div class="gift-icon">&#9992;&#65039;</div>
-        <h3>Honeymoon Fund</h3>
-        <p class="gift-amount">&#8358;150,000</p>
+      <div class="gift-card" data-gift="Contribute to our Wedding">
+        <span class="gift-priority high">High Priority</span>
+        <div class="gift-icon">&#128142;</div>
+        <h3>Contribute to our Wedding</h3>
+        <p class="gift-desc">5483439410 &middot; Ayodeji Otti &middot; Moniepoint MFB. Please add your name in the description so we don't send your blessings to the wrong person &#128517;</p>
+        <p class="gift-amount">&#8358;5,000,000</p>
+        <p class="gift-qty">Quantity: 1+ (4 reserved so far)</p>
         <button class="btn btn-outline gift-select">Select Gift</button>
       </div>
-      <div class="gift-card" data-gift="Home Furnishing">
-        <div class="gift-icon">&#127968;</div>
-        <h3>Home Furnishing Fund</h3>
-        <p class="gift-amount">&#8358;200,000</p>
-        <button class="btn btn-outline gift-select">Select Gift</button>
-      </div>
-      <div class="gift-card" data-gift="Kitchen Set">
-        <div class="gift-icon">&#127859;</div>
-        <h3>Kitchen Appliance Set</h3>
-        <p class="gift-amount">&#8358;100,000</p>
-        <button class="btn btn-outline gift-select">Select Gift</button>
-      </div>
-      <div class="gift-card" data-gift="Generator/Power">
-        <div class="gift-icon">&#9889;</div>
-        <h3>Power &amp; Generator Fund</h3>
-        <p class="gift-amount">&#8358;250,000</p>
-        <button class="btn btn-outline gift-select">Select Gift</button>
-      </div>
-      <div class="gift-card" data-gift="Cash Gift">
-        <div class="gift-icon">&#127873;</div>
-        <h3>Cash Gift (Any Amount)</h3>
-        <p class="gift-amount">Any amount, gratefully received</p>
-        <button class="btn btn-outline gift-select">Select Gift</button>
-      </div>
-      <div class="gift-card" data-gift="Aso-Ebi Contribution">
-        <div class="gift-icon">&#129509;</div>
-        <h3>Aso-Ebi Contribution</h3>
-        <p class="gift-amount">&#8358;35,000</p>
-        <button class="btn btn-outline gift-select">Select Gift</button>
-      </div>
-    </div>
 
-    <div class="bank-details">
-      <h3>Bank Transfer Details</h3>
-      <p>Account Name: <strong>Itunuoluwa &amp; Ayodeji</strong><br/>
-      Bank: <em>[Your Bank Name]</em><br/>
-      Account Number: <em>[0000000000]</em></p>
-      <p class="form-note">Replace the placeholder bank details above with your real account info.</p>
+      <div class="gift-card" data-gift="Honeymoon">
+        <span class="gift-priority high">High Priority</span>
+        <div class="gift-icon">&#9992;&#65039;</div>
+        <h3>Honeymoon</h3>
+        <p class="gift-desc">An opportunity for you to sponsor romance. 2208427407 &middot; Adefeyikemi Itunuoluwa Adeyemo &middot; Zenith Bank</p>
+        <p class="gift-amount">&#8358;3,000,000</p>
+        <p class="gift-qty">Quantity: 1+ (1 reserved so far)</p>
+        <button class="btn btn-outline gift-select">Select Gift</button>
+      </div>
+
+      <div class="gift-card" data-gift="Chest Freezer">
+        <span class="gift-priority high">High Priority</span>
+        <div class="gift-icon">&#10052;&#65039;</div>
+        <h3>198 Litres Chest Freezer (Silver)</h3>
+        <p class="gift-desc">Please specify if you'd like to contribute to this, or single-handedly purchase it.</p>
+        <p class="gift-amount">&#8358;303,450</p>
+        <p class="gift-qty">Quantity: 1+</p>
+        <a class="btn btn-outline" target="_blank" rel="noopener"
+           href="https://www.jumia.com.ng/hisense-198-litres-chest-freezer-fc260sh-silver-195670899.html">View Item</a>
+        <button class="btn btn-outline gift-select">Select Gift</button>
+      </div>
+
+      <div class="gift-card" data-gift="Cookware Set">
+        <span class="gift-priority high">High Priority</span>
+        <div class="gift-icon">&#127859;</div>
+        <h3>6-Set Non-Stick Die Cast Iron Pot Set</h3>
+        <p class="gift-desc">Please specify if you'd like to contribute to this, or single-handedly purchase it.</p>
+        <p class="gift-amount">&#8358;210,000</p>
+        <p class="gift-qty">Quantity: 1+</p>
+        <a class="btn btn-outline" target="_blank" rel="noopener"
+           href="https://www.jumia.com.ng/6-set-non-stick-die-cast-iron-pot-set-cookware-non-toxic-generic-mpg5450962.html">View Item</a>
+        <button class="btn btn-outline gift-select">Select Gift</button>
+      </div>
+
+      <div class="gift-card" data-gift="Microwave">
+        <span class="gift-priority medium">Medium Priority</span>
+        <div class="gift-icon">&#128293;</div>
+        <h3>20 Litres Microwave (White)</h3>
+        <p class="gift-desc">Please specify if you'd like to contribute to this, or single-handedly purchase it. 1 year warranty.</p>
+        <p class="gift-amount">&#8358;79,999</p>
+        <p class="gift-qty">Quantity: 1+</p>
+        <a class="btn btn-outline" target="_blank" rel="noopener"
+           href="https://www.jumia.com.ng/hisense-20-litres-microwave-h20mows14-white-with-1-year-warranty-400871962.html">View Item</a>
+        <button class="btn btn-outline gift-select">Select Gift</button>
+      </div>
+
+      <div class="gift-card" data-gift="Blender">
+        <span class="gift-priority medium">Medium Priority</span>
+        <div class="gift-icon">&#129381;</div>
+        <h3>2200W Buchymix Turbocrush Heavy Commercial Blender</h3>
+        <p class="gift-desc">Please specify if you'd like to contribute to this, or single-handedly purchase it. 2Ltr capacity.</p>
+        <p class="gift-amount">&#8358;365,750</p>
+        <p class="gift-qty">Quantity: 1+</p>
+        <button class="btn btn-outline gift-select">Select Gift</button>
+      </div>
     </div>
   </section>
 
@@ -286,6 +320,8 @@
   <p>Itunuoluwa &amp; Ayodeji &bull; September 26, 2026</p>
   <p class="footer-sub">Made with love for our big day &#10084;&#65039;</p>
 </footer>
+
+<button class="back-to-top" id="backToTop" aria-label="Back to top">&#8593;</button>
 
 <div class="toast" id="toast"></div>
 

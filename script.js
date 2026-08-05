@@ -6,6 +6,32 @@ navLinks.querySelectorAll('a').forEach(link =>
   link.addEventListener('click', () => navLinks.classList.remove('open'))
 );
 
+// Highlight active nav link based on scroll position
+const navAnchors = navLinks.querySelectorAll('a[data-nav]');
+const sections = Array.from(navAnchors)
+  .map(a => document.getElementById(a.dataset.nav))
+  .filter(Boolean);
+
+const sectionObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    navAnchors.forEach(a => a.classList.remove('active'));
+    const activeLink = navLinks.querySelector(`a[data-nav="${entry.target.id}"]`);
+    if (activeLink) activeLink.classList.add('active');
+  });
+}, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+
+sections.forEach(section => sectionObserver.observe(section));
+
+// Back to top button
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('show', window.scrollY > 500);
+});
+backToTop.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
 // Countdown to wedding day (White Wedding, 10:00 AM WAT)
 const weddingDate = new Date('2026-09-26T10:00:00+01:00').getTime();
 
