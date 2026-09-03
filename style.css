@@ -203,6 +203,12 @@ ul { list-style: none; }
   font-size: clamp(2.4rem, 7vw, 4.5rem);
   font-weight: 400;
   line-height: 1.1;
+  white-space: nowrap;
+}
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: 6.8vw;
+  }
 }
 .hero h1 .amp {
   font-family: var(--font-script);
@@ -546,6 +552,16 @@ ul { list-style: none; }
   line-height: 1.5;
   margin-bottom: 14px;
 }
+.gift-account {
+  display: inline-block;
+  font-weight: 700;
+  color: var(--purple-dark);
+  background: #f3e9fb;
+  padding: 4px 10px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  letter-spacing: 0.3px;
+}
 .gift-amount {
   color: var(--gold);
   font-weight: 600;
@@ -670,4 +686,95 @@ ul { list-style: none; }
 }
 .back-to-top:hover {
   transform: translateY(-3px);
+}
+
+/* Gift capture modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 5, 32, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  z-index: 300;
+}
+.modal-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+.modal-box {
+  position: relative;
+  background: var(--white);
+  border-radius: 20px;
+  padding: 36px 30px;
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.35);
+  transform: translateY(20px) scale(0.97);
+  transition: transform 0.25s ease;
+}
+.modal-overlay.open .modal-box {
+  transform: translateY(0) scale(1);
+}
+.modal-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  line-height: 1;
+  color: #a08cab;
+  cursor: pointer;
+}
+.modal-close:hover {
+  color: var(--purple-dark);
+}
+.modal-box .gift-icon {
+  font-size: 2.2rem;
+  margin-bottom: 8px;
+}
+.modal-title {
+  font-family: var(--font-display);
+  color: var(--purple-dark);
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+}
+.modal-sub {
+  color: #6b5a75;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  margin-bottom: 22px;
+}
+.modal-sub strong {
+  color: var(--purple);
+}
+#giftForm {
+  text-align: left;
+}
+#giftForm label {
+  display: block;
+  margin-bottom: 16px;
+  font-size: 0.9rem;
+  color: var(--purple-dark);
+  font-weight: 500;
+}
+#giftForm input {
+  width: 100%;
+  margin-top: 6px;
+  padding: 12px 14px;
+  border: 1px solid #ddd0e6;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  background: #fdfbfe;
+}
+#giftForm .btn {
+  width: 100%;
+  margin-top: 4px;
 }

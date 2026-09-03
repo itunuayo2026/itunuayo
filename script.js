@@ -75,19 +75,47 @@ function showToast(message) {
   setTimeout(() => toast.classList.remove('show'), 2600);
 }
 
-// Gift selection
+// Gift selection (toggle select/deselect) + capture modal
 const giftGrid = document.getElementById('giftGrid');
-const rsvpForm = document.getElementById('rsvpForm');
-const rsvpSubmitBtn = rsvpForm.querySelector('button[type="submit"]');
-let selectedGiftInput = null;
-let rsvpSubmitted = false;
+const giftModal = document.getElementById('giftModal');
+const giftModalClose = document.getElementById('giftModalClose');
+const giftModalName = document.getElementById('giftModalName');
+const giftModalIcon = document.getElementById('giftModalIcon');
+const giftForm = document.getElementById('giftForm');
+const giftModalHiddenInput = document.getElementById('giftModalHiddenInput');
+
+function openGiftModal(giftName, iconHTML) {
+  giftModalName.textContent = giftName;
+  giftModalIcon.innerHTML = iconHTML || '';
+  giftModalHiddenInput.value = giftName;
+  giftModal.classList.add('open');
+}
+
+function closeGiftModal() {
+  giftModal.classList.remove('open');
+}
+
+giftModalClose.addEventListener('click', closeGiftModal);
+giftModal.addEventListener('click', (e) => {
+  if (e.target === giftModal) closeGiftModal();
+});
 
 giftGrid.addEventListener('click', (e) => {
   const btn = e.target.closest('.gift-select');
   if (!btn) return;
   const card = btn.closest('.gift-card');
   const giftName = card.dataset.gift;
+  const isAlreadySelected = card.classList.contains('selected');
 
+  if (isAlreadySelected) {
+    // Deselect
+    card.classList.remove('selected');
+    btn.textContent = 'Select Gift';
+    showToast(`"${giftName}" deselected.`);
+    return;
+  }
+
+  // Selecting a new gift clears any other selection (single choice at a time)
   giftGrid.querySelectorAll('.gift-card').forEach(c => {
     c.classList.remove('selected');
     c.querySelector('.gift-select').textContent = 'Select Gift';
@@ -96,41 +124,25 @@ giftGrid.addEventListener('click', (e) => {
   card.classList.add('selected');
   btn.textContent = 'Selected ✓';
 
-  if (!selectedGiftInput) {
-    selectedGiftInput = document.createElement('input');
-    selectedGiftInput.type = 'hidden';
-    selectedGiftInput.name = 'selected_gift';
-    rsvpForm.appendChild(selectedGiftInput);
-  }
-  selectedGiftInput.value = giftName;
-
-  const rsvpSection = document.getElementById('rsvp');
-  rsvpSection.classList.remove('hidden');
-
-  if (rsvpSubmitted) {
-    rsvpSubmitBtn.textContent = 'Update RSVP with Gift';
-    showToast(`"${giftName}" selected — click "Update RSVP with Gift" below to let us know.`);
-  } else {
-    showToast(`"${giftName}" selected — thank you!`);
-    rsvpSection.scrollIntoView({ behavior: 'smooth' });
-  }
+  const iconHTML = card.querySelector('.gift-icon')?.innerHTML || '';
+  openGiftModal(giftName, iconHTML);
 });
 
-// RSVP form submit (posts to Google Apps Script so we can show a nice toast)
-rsvpForm.addEventListener('submit', async (e) => {
+// Gift capture form submit (posts to Google Apps Script so we can show a nice toast)
+giftForm.addEventListener('submit', async (e) => {
   e.preventDefault();
-  const action = rsvpForm.getAttribute('action');
+  const action = giftForm.getAttribute('action');
   try {
     // Google Apps Script web apps don't send CORS headers, so the response
     // is opaque under no-cors — a resolved fetch means the request reached the script.
     await fetch(action, {
       method: 'POST',
       mode: 'no-cors',
-      body: new URLSearchParams(new FormData(rsvpForm)),
+      body: new URLSearchParams(new FormData(giftForm)),
     });
-    showToast('RSVP sent — thank you! We can\'t wait to celebrate with you.');
-    rsvpSubmitted = true;
-    rsvpSubmitBtn.textContent = 'Update RSVP';
+    showToast('Thank you! We\'ve got your details — see you at the wedding!');
+    giftForm.reset();
+    closeGiftModal();
   } catch (err) {
     showToast('Network error — please try again.');
   }
