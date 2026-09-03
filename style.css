@@ -58,6 +58,36 @@ ul { list-style: none; }
   color: var(--white);
 }
 
+.btn-ghost {
+  background: transparent;
+  border-color: rgba(243, 221, 151, 0.6);
+  color: var(--gold-light);
+  animation: giftPulse 2.4s ease-in-out infinite;
+}
+.btn-ghost:hover {
+  background: rgba(243, 221, 151, 0.15);
+  border-color: var(--gold-light);
+  transform: translateY(-2px) scale(1.04);
+  animation-play-state: paused;
+}
+
+@keyframes giftPulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(243, 221, 151, 0.5);
+  }
+  50% {
+    transform: scale(1.045);
+    box-shadow: 0 0 0 10px rgba(243, 221, 151, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-ghost {
+    animation: none;
+  }
+}
+
 /* Navbar */
 .navbar {
   position: fixed;
@@ -221,6 +251,13 @@ ul { list-style: none; }
   opacity: 0.8;
 }
 
+.hero-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
 /* Sections */
 .section {
   max-width: 1100px;
@@ -236,6 +273,9 @@ ul { list-style: none; }
   max-width: 1100px;
   margin-left: auto;
   margin-right: auto;
+}
+.section.hidden {
+  display: none;
 }
 .section-eyebrow {
   color: var(--purple-light);
@@ -258,12 +298,26 @@ ul { list-style: none; }
 }
 
 /* Story */
+.story-pov {
+  margin-top: 60px;
+}
+.story-pov:first-of-type {
+  margin-top: 30px;
+}
+.story-pov-title {
+  font-family: var(--font-display);
+  color: var(--purple-light);
+  font-size: 1.3rem;
+  text-align: center;
+  margin-bottom: 10px;
+  position: relative;
+}
 .story-wrap {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: left;
-  margin-top: 40px;
+  margin-top: 30px;
 }
 .story-photo {
   width: 100%;
@@ -283,6 +337,25 @@ ul { list-style: none; }
   line-height: 1.8;
   color: #4a3752;
   font-size: 1.02rem;
+}
+
+@media (min-width: 900px) {
+  .story-wrap {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 50px;
+  }
+  .story-wrap.reverse {
+    flex-direction: row-reverse;
+  }
+  .story-photo {
+    flex: 1 1 300px;
+    max-width: 360px;
+    margin-bottom: 0;
+  }
+  .story-text {
+    flex: 2 1 380px;
+  }
 }
 
 /* Details */
@@ -330,14 +403,50 @@ ul { list-style: none; }
   margin-top: 40px;
 }
 .gallery-item {
+  position: relative;
   height: 280px;
   background-size: cover;
   background-position: center 15%;
   border-radius: 12px;
   transition: transform 0.3s ease;
   box-shadow: 0 10px 25px rgba(59,15,92,0.15);
+  overflow: hidden;
 }
 .gallery-item:hover { transform: scale(1.03); }
+
+.gallery-download {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(59, 15, 92, 0.75);
+  color: var(--gold-light);
+  font-size: 1.1rem;
+  text-decoration: none;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: all 0.25s ease;
+}
+.gallery-item:hover .gallery-download,
+.gallery-download:focus {
+  opacity: 1;
+  transform: translateY(0);
+}
+.gallery-download:hover {
+  background: var(--gold);
+  color: var(--purple-dark);
+}
+@media (hover: none) {
+  .gallery-download {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
 /* RSVP Form */
 .rsvp-form {
@@ -495,52 +604,6 @@ ul { list-style: none; }
   margin-top: 12px;
   color: #5a4a63;
   line-height: 1.6;
-}
-
-/* Schedule toggle */
-.schedule-toggle {
-  max-width: 560px;
-  margin: 40px auto 0;
-  text-align: left;
-  background: var(--white);
-  border-radius: 12px;
-  padding: 18px 22px;
-  box-shadow: 0 8px 20px rgba(59,15,92,0.08);
-}
-.schedule-toggle summary {
-  cursor: pointer;
-  font-weight: 500;
-  color: var(--purple-dark);
-  list-style: none;
-  position: relative;
-  padding-right: 24px;
-}
-.schedule-toggle summary::-webkit-details-marker { display: none; }
-.schedule-toggle summary::after {
-  content: '+';
-  position: absolute;
-  right: 0;
-  top: 0;
-  color: var(--gold);
-  font-size: 1.3rem;
-}
-.schedule-toggle[open] summary::after { content: '\2212'; }
-.schedule-list {
-  margin-top: 16px;
-  border-top: 1px solid #eee1f4;
-}
-.schedule-list li {
-  display: flex;
-  gap: 18px;
-  padding: 10px 0;
-  border-bottom: 1px solid #eee1f4;
-  color: #4a3752;
-  font-size: 0.92rem;
-}
-.schedule-time {
-  flex: 0 0 90px;
-  font-weight: 600;
-  color: var(--gold);
 }
 
 /* Footer */

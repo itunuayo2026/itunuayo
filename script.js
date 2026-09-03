@@ -77,7 +77,10 @@ function showToast(message) {
 
 // Gift selection
 const giftGrid = document.getElementById('giftGrid');
+const rsvpForm = document.getElementById('rsvpForm');
+const rsvpSubmitBtn = rsvpForm.querySelector('button[type="submit"]');
 let selectedGiftInput = null;
+let rsvpSubmitted = false;
 
 giftGrid.addEventListener('click', (e) => {
   const btn = e.target.closest('.gift-select');
@@ -97,36 +100,37 @@ giftGrid.addEventListener('click', (e) => {
     selectedGiftInput = document.createElement('input');
     selectedGiftInput.type = 'hidden';
     selectedGiftInput.name = 'selected_gift';
-    document.getElementById('rsvpForm').appendChild(selectedGiftInput);
+    rsvpForm.appendChild(selectedGiftInput);
   }
   selectedGiftInput.value = giftName;
 
-  showToast(`"${giftName}" selected — thank you!`);
-  document.getElementById('rsvp').scrollIntoView({ behavior: 'smooth' });
+  const rsvpSection = document.getElementById('rsvp');
+  rsvpSection.classList.remove('hidden');
+
+  if (rsvpSubmitted) {
+    rsvpSubmitBtn.textContent = 'Update RSVP with Gift';
+    showToast(`"${giftName}" selected — click "Update RSVP with Gift" below to let us know.`);
+  } else {
+    showToast(`"${giftName}" selected — thank you!`);
+    rsvpSection.scrollIntoView({ behavior: 'smooth' });
+  }
 });
 
-// RSVP form submit (Formspree AJAX so we can show a nice toast)
-const rsvpForm = document.getElementById('rsvpForm');
+// RSVP form submit (posts to Google Apps Script so we can show a nice toast)
 rsvpForm.addEventListener('submit', async (e) => {
-  const action = rsvpForm.getAttribute('action');
-  if (action.includes('YOUR_FORM_ID')) {
-    e.preventDefault();
-    showToast('Connect your Formspree form ID first — see the note below the form.');
-    return;
-  }
   e.preventDefault();
+  const action = rsvpForm.getAttribute('action');
   try {
-    const res = await fetch(action, {
+    // Google Apps Script web apps don't send CORS headers, so the response
+    // is opaque under no-cors — a resolved fetch means the request reached the script.
+    await fetch(action, {
       method: 'POST',
-      body: new FormData(rsvpForm),
-      headers: { Accept: 'application/json' },
+      mode: 'no-cors',
+      body: new URLSearchParams(new FormData(rsvpForm)),
     });
-    if (res.ok) {
-      showToast('RSVP sent — thank you! We can\'t wait to celebrate with you.');
-      rsvpForm.reset();
-    } else {
-      showToast('Something went wrong. Please try again or call us directly.');
-    }
+    showToast('RSVP sent — thank you! We can\'t wait to celebrate with you.');
+    rsvpSubmitted = true;
+    rsvpSubmitBtn.textContent = 'Update RSVP';
   } catch (err) {
     showToast('Network error — please try again.');
   }
