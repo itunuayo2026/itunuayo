@@ -147,3 +147,35 @@ giftForm.addEventListener('submit', async (e) => {
     showToast('Network error — please try again.');
   }
 });
+
+// Gallery lightbox preview
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightboxImg');
+const lightboxDownload = document.getElementById('lightboxDownload');
+const lightboxClose = document.getElementById('lightboxClose');
+
+function openLightbox(src) {
+  lightboxImg.src = src;
+  lightboxDownload.href = src;
+  lightbox.classList.add('open');
+}
+
+function closeLightbox() {
+  lightbox.classList.remove('open');
+}
+
+document.querySelectorAll('.gallery-item').forEach(item => {
+  item.addEventListener('click', (e) => {
+    if (e.target.closest('.gallery-download')) return;
+    const match = item.style.backgroundImage.match(/url\(["']?(.*?)["']?\)/);
+    if (match) openLightbox(match[1]);
+  });
+});
+
+lightboxClose.addEventListener('click', closeLightbox);
+lightbox.addEventListener('click', (e) => {
+  if (e.target === lightbox) closeLightbox();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeLightbox();
+});
