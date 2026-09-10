@@ -827,7 +827,7 @@ ul { list-style: none; }
   flex-shrink: 0;
 }
 
-/* Clean capture mode (for guests screen-recording the countdown) */
+/* Screenshot capture (auto-hides UI chrome for a clean shot, then downloads it) */
 .clean-capture-btn {
   margin-top: 18px;
   background: transparent;
@@ -844,44 +844,16 @@ ul { list-style: none; }
   border-color: var(--gold-light);
   color: var(--gold-light);
 }
-
-body.clean-mode .navbar,
-body.clean-mode .hero-actions,
-body.clean-mode .clean-capture-btn,
-body.clean-mode .back-to-top {
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
+.clean-capture-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
 }
 
-.clean-mode-banner {
-  position: fixed;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%) translateY(20px);
-  background: var(--purple-dark);
-  color: var(--gold-light);
-  padding: 14px 20px;
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  flex-wrap: wrap;
-  justify-content: center;
-  box-shadow: 0 15px 35px rgba(0,0,0,0.35);
-  opacity: 0;
+body.capturing .navbar,
+body.capturing .hero-actions,
+body.capturing .clean-capture-btn,
+body.capturing .back-to-top {
+  opacity: 0 !important;
   pointer-events: none;
-  transition: all 0.3s ease;
-  z-index: 400;
-  max-width: 90vw;
-  text-align: center;
-}
-.clean-mode-banner p {
-  font-size: 0.85rem;
-  margin: 0;
-}
-body.clean-mode .clean-mode-banner {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateX(-50%) translateY(0);
+  transition: none;
 }

@@ -180,23 +180,32 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') closeLightbox();
 });
 
-// Clean capture mode — hides nav/buttons briefly so guests can screen-record the countdown
-const cleanCaptureBtn = document.getElementById('cleanCaptureBtn');
-const exitCleanModeBtn = document.getElementById('exitCleanModeBtn');
-let cleanModeTimer = null;
+// Screenshot button — hides UI chrome, captures the hero section, auto-downloads it
+const screenshotBtn = document.getElementById('screenshotBtn');
 
-function enterCleanMode() {
-  document.body.classList.add('clean-mode');
-  clearTimeout(cleanModeTimer);
-  cleanModeTimer = setTimeout(exitCleanMode, 30000);
-}
+if (screenshotBtn) {
+  screenshotBtn.addEventListener('click', async () => {
+    if (typeof html2canvas === 'undefined') {
+      showToast('Screenshot tool failed to load — please try again.');
+      return;
+    }
+    screenshotBtn.disabled = true;
+    document.body.classList.add('capturing');
+    await new Promise(resolve => setTimeout(resolve, 60));
 
-function exitCleanMode() {
-  document.body.classList.remove('clean-mode');
-  clearTimeout(cleanModeTimer);
-}
-
-if (cleanCaptureBtn) {
-  cleanCaptureBtn.addEventListener('click', enterCleanMode);
-  exitCleanModeBtn.addEventListener('click', exitCleanMode);
+    try {
+      const heroEl = document.getElementById('home');
+      const canvas = await html2canvas(heroEl, { useCORS: true, scale: 2 });
+      const link = document.createElement('a');
+      link.download = 'ItunuAyo2026-countdown.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+      showToast('Screenshot saved to your downloads!');
+    } catch (err) {
+      showToast('Could not capture screenshot — please try again.');
+    } finally {
+      document.body.classList.remove('capturing');
+      screenshotBtn.disabled = false;
+    }
+  });
 }
