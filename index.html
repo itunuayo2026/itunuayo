@@ -29,10 +29,7 @@
 </nav>
 
 <header id="home" class="hero">
-  <div class="hero-photo-boomerang" id="heroBoomerang">
-    <div class="hero-photo-layer active" style="background-image:url('images/hero.jpeg');"></div>
-    <div class="hero-photo-layer" style="background-image:url('images/photo3.jpeg');"></div>
-  </div>
+  <div class="hero-photo" style="background-image:url('images/hero.jpeg');"></div>
   <div class="hero-overlay"></div>
   <div class="hero-content">
     <p class="eyebrow">We're getting married</p>
@@ -50,8 +47,15 @@
     <div class="hero-actions">
       <a href="#registry" class="btn btn-ghost">Want to give us a gift? Click here &#127873;</a>
     </div>
+
+    <button class="clean-capture-btn" id="cleanCaptureBtn">&#128248; Record this moment</button>
   </div>
 </header>
+
+<div class="clean-mode-banner" id="cleanModeBanner">
+  <p>Recording mode is on &mdash; use your phone's screen recorder now! &#127909;</p>
+  <button class="btn btn-primary" id="exitCleanModeBtn">Exit Recording Mode</button>
+</div>
 
 <main>
 

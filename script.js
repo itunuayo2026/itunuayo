@@ -180,30 +180,23 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') closeLightbox();
 });
 
-// Hero background "boomerang" — ping-pongs through photos with a crossfade
-const heroBoomerang = document.getElementById('heroBoomerang');
-if (heroBoomerang) {
-  const boomerangImages = [
-    'images/hero.jpeg',
-    'images/photo3.jpeg',
-    'images/photo6.jpeg',
-    'images/photo9.jpeg',
-    'images/photo12.jpeg',
-  ];
-  const heroLayers = heroBoomerang.querySelectorAll('.hero-photo-layer');
-  let boomerangIndex = 0;
-  let boomerangDirection = 1;
-  let activeLayerIndex = 0;
+// Clean capture mode — hides nav/buttons briefly so guests can screen-record the countdown
+const cleanCaptureBtn = document.getElementById('cleanCaptureBtn');
+const exitCleanModeBtn = document.getElementById('exitCleanModeBtn');
+let cleanModeTimer = null;
 
-  setInterval(() => {
-    boomerangIndex += boomerangDirection;
-    if (boomerangIndex === boomerangImages.length - 1 || boomerangIndex === 0) {
-      boomerangDirection *= -1;
-    }
-    const nextLayerIndex = 1 - activeLayerIndex;
-    heroLayers[nextLayerIndex].style.backgroundImage = `url('${boomerangImages[boomerangIndex]}')`;
-    heroLayers[nextLayerIndex].classList.add('active');
-    heroLayers[activeLayerIndex].classList.remove('active');
-    activeLayerIndex = nextLayerIndex;
-  }, 2200);
+function enterCleanMode() {
+  document.body.classList.add('clean-mode');
+  clearTimeout(cleanModeTimer);
+  cleanModeTimer = setTimeout(exitCleanMode, 30000);
+}
+
+function exitCleanMode() {
+  document.body.classList.remove('clean-mode');
+  clearTimeout(cleanModeTimer);
+}
+
+if (cleanCaptureBtn) {
+  cleanCaptureBtn.addEventListener('click', enterCleanMode);
+  exitCleanModeBtn.addEventListener('click', exitCleanMode);
 }
